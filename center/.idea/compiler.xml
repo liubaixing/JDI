@@ -9,12 +9,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="redis" />
         <module name="example" />
+        <module name="oracle" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="center" target="1.8" />
       <module name="common" target="1.8" />
       <module name="example" target="1.8" />
+      <module name="oracle" target="1.8" />
       <module name="redis" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -23,6 +25,7 @@
       <module name="center" options="-parameters" />
       <module name="common" options="" />
       <module name="example" options="-parameters" />
+      <module name="oracle" options="-parameters" />
       <module name="redis" options="-parameters" />
     </option>
   </component>

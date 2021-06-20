@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jdi.oracle.dao.mapper.ProductMapper">
+
+
+    <select id="selectProductByName" resultType="com.jdi.oracle.dao.entity.Product">
+        select ID as id,NAME as name from M_PRODUCT@BOJUN where name = #{name}
+    </select>
+
+    <select id="selectBrandMapping" resultType="com.jdi.oracle.dao.entity.BrandMapping">
+        select WEID as weid,HASH as hash from BRAND_MAPPING
+    </select>
+
+    <select id="selectProductNewByProductId" resultType="com.jdi.oracle.dao.entity.ProductNew">
+        select ID as id,WEID as weid,PRODUCT_ID as productId,PRODUCT_NAME as productName from M_PRODUCT_NEW where PRODUCT_ID = #{productId}
+    </select>
+
+    <insert id="insertProductNew" parameterType="com.jdi.oracle.dao.entity.ProductNew">
+        insert into M_PRODUCT_NEW(ID,WEID,PRODUCT_ID,PRODUCT_NAME)
+         values (SEQ_M_PRODUCT_NEW.nextval,#{weid},#{productId},#{productName})
+    </insert>
+
+</mapper>

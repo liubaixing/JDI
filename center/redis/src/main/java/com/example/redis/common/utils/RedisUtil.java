@@ -1,7 +1,10 @@
 package com.example.redis.common.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -90,6 +93,17 @@ public class RedisUtil {
         return redisTemplate.opsForList().leftPop(key);
     }
 
+    public List<Object> leftPopList(String key){
+        return redisTemplate.executePipelined(new SessionCallback<Object>() {
+            @Override
+            public <K, V> Object execute(RedisOperations<K, V> redisOperations) throws DataAccessException {
+                listRange(key,0,2);
+                listTrim(key,3,-1);
+                return null;
+            }
+        });
+    }
+
     /**
      * 从左边依次入栈
      * 导入顺序按照 Collection 顺序
@@ -120,6 +134,7 @@ public class RedisUtil {
     public Object rightPop(String key){
         return redisTemplate.opsForList().rightPop(key);
     }
+
 
     /**
      * 从右边依次入栈

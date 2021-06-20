@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 class RedisApplicationTests {
 
@@ -15,43 +17,17 @@ class RedisApplicationTests {
 
     @Test
     public void test() {
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 100; i++){
             redisUtil.rightPush(key,i);
         }
     }
 
     @Test
     public void getList(){
-        for (int i = 0; i < 5; i++){
-            Object o = redisUtil.leftPop(key);
-            System.out.println(Thread.currentThread() + " : " +o);
-        }
+        List<Object> objects = redisUtil.leftPopList(key);
+        System.out.println(objects);
     }
 
-    @Test
-    public void redisPop(){
 
-        new Thread(()->{
-            for (int i = 0; i < 5; i++){
-                Object o = redisUtil.leftPop(key);
-                System.out.println(Thread.currentThread() + " : " +o);
-            }
-        }).start();
-
-//        new Thread(()->{
-//            for (int i = 0; i < 5; i++){
-//                Object o = redisUtil.leftPop(key);
-//                System.out.println(Thread.currentThread() + " : " +o);
-//            }
-//        }).start();
-
-//        new Thread(()->{
-//            for (int i = 0; i < 5; i++){
-//                Object o = redisUtil.leftPop(key);
-//                System.out.println(Thread.currentThread() + " : " +o);
-//            }
-//        }).start();
-
-    }
 
 }
