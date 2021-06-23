@@ -7,6 +7,10 @@
         select ID as id,NAME as name from M_PRODUCT@BOJUN where name = #{name}
     </select>
 
+    <select id="selectProductByProductOrig" resultType="com.jdi.oracle.dao.entity.Product">
+        select ID as id,NAME as name  from m_product@BOJUN t where t.m_product_orig = #{productOrig}
+    </select>
+
     <select id="selectBrandMapping" resultType="com.jdi.oracle.dao.entity.BrandMapping">
         select WEID as weid,HASH as hash from BRAND_MAPPING
     </select>

@@ -93,6 +93,22 @@ public class RedisUtil {
         return redisTemplate.opsForList().leftPop(key);
     }
 
+    public Object lPop(String key, int length) {
+        try {
+            Object result = null;
+            if (length <= this.redisTemplate.opsForList().size(key).intValue()) {
+                for(int i = 0; i < length; ++i) {
+                    result = this.redisTemplate.opsForList().leftPop(key);
+                }
+            }
+
+            return result;
+        } catch (Exception var5) {
+            var5.printStackTrace();
+            return null;
+        }
+    }
+
     public List<Object> leftPopList(String key){
         return redisTemplate.executePipelined(new SessionCallback<Object>() {
             @Override

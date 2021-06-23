@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,7 +32,7 @@ class OracleApplicationTests {
         initBrand();
 
         // 被读取的文件绝对路径
-        String fileName = "C:\\Users\\liubx\\Desktop\\微盟各商城上新款号（截至21春夏）---20210618.xlsx";
+        String fileName = "D:\\Users\\liubaixing23200\\Desktop\\微盟各商城上新款号（截至21春夏）---20210618.xlsx";
 
         // 接收解析出的目标对象（Student）
         List<CommonExcelEntity> commonExcelEntities = new ArrayList<>();
@@ -52,6 +53,8 @@ class OracleApplicationTests {
             }
         }).sheet("江南布衣官方Outlet商城").doRead();
 
+        List<CommonExcelEntity> jnbyHome = new ArrayList<>();
+
         List<ProductNew> productNewList = commonExcelEntities.stream().map(i -> {
 
             String brandName = i.getRow1();
@@ -64,13 +67,37 @@ class OracleApplicationTests {
             productNew.setProductName(productName);
             if (product != null){
                 productNew.setProductId(product.getId());
+            }else if ("JNBYHOME".equals(brandName)){
+                jnbyHome.add(i);
             }else {
                 System.out.println(productName+"为查询到");
             }
             return productNew;
         }).collect(Collectors.toList());
 
-        check(productNewList);
+        List<ProductNew> productNews = new ArrayList<>();
+        for (CommonExcelEntity entity : jnbyHome){
+            String brandName = entity.getRow1();
+            String productName = entity.getRow2();
+
+            Long weid = chooseBrand(brandName);
+
+
+            List<Product> products = productMapper.selectProductByProductOrig(productName);
+
+            if (products != null && products.size() > 0){
+                products.stream().forEach(i -> {
+                    ProductNew productNew = new ProductNew();
+                    productNew.setWeid(weid);
+                    productNew.setProductId(i.getId());
+                    productNew.setProductName(i.getName());
+                    productNews.add(productNew);
+                });
+            }
+
+        }
+        check(productNews);
+//        check(productNewList);
 
     }
 

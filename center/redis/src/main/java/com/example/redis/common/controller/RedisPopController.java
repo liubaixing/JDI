@@ -16,8 +16,9 @@ public class RedisPopController {
 
     @GetMapping("redisPop")
     public synchronized void redisPop(){
-        List<Object> objects = redisUtil.leftPopList("PRIZE-COUNT");
-        System.out.println(Thread.currentThread()+""+objects);
+//        List<Object> objects = redisUtil.leftPopList("PRIZE-COUNT");
+        Object object = redisUtil.lPop("PRIZE-COUNT",3);
+        System.out.println(Thread.currentThread()+""+object);
     }
 
 

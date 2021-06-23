@@ -11,6 +11,8 @@ public interface ProductMapper {
 
     Product selectProductByName(@Param("name")String name);
 
+    List<Product> selectProductByProductOrig(@Param("productOrig")String productOrig);
+
     List<BrandMapping> selectBrandMapping();
 
     ProductNew selectProductNewByProductId(@Param("productId")Long productId);
